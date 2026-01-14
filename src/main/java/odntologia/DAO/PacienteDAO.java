@@ -104,5 +104,70 @@ public class PacienteDAO {
 		}	
 	}
 	
+	public Paciente buscarPorId(int idBuscar) {
+		
+		String consultaObtenerPacientes="SELECT * FROM PACIENTES WHERE ID="+idBuscar;
+		
+		try(Connection conexion = Conexion.getConexion();
+			PreparedStatement prst = conexion.prepareStatement(consultaObtenerPacientes);
+				ResultSet rs = prst.executeQuery();){
+			
+			Paciente paciente=null;;
+			
+			while(rs.next()) {
+				int id = rs.getInt(1);
+				String nombre = rs.getString(3);
+				String apellido = rs.getString(4);
+				String identificiacion = rs.getString(2);
+				java.sql.Date fechaNacDB = rs.getDate(5);
+				LocalDate fechaNacimiento = fechaNacDB.toLocalDate();
+				String direccion = rs.getString(6);
+				String celular = rs.getString(7);
+				boolean seguro = rs.getBoolean(8);
+				String tipoSangre = rs.getString(9);
+				
+				
+				paciente = new Paciente(identificiacion, nombre, apellido, fechaNacimiento, direccion, celular, seguro, tipoSangre);
+				
+				paciente.setId(id);
+				
+			}
+			return paciente;
+			
+			}catch (Exception e) {
+				// TODO: handle exception
+				return null;
+			}
+		
+	}
+	
+	public boolean editarPaciente(Paciente paciente) {
+		String consultaInsert = "UPDATE pacientes SET identificacion=?,nombre=?,apellido=?,fechaNacimiento=?,direccion=?,celular=?,seguro=?,tipoSangre=? WHERE id=" + paciente.getId();
+		
+		try (Connection conexion = Conexion.getConexion();
+			 PreparedStatement prst = conexion.prepareStatement(consultaInsert)){
+			
+			prst.setString(1, paciente.getIdentificacion());
+			prst.setString(2, paciente.getNombre());
+			prst.setString(3, paciente.getApellido());
+			prst.setDate(4, java.sql.Date.valueOf(paciente.getFechaNacimiento()));
+			prst.setString(5, paciente.getDireccion());
+			prst.setString(6, paciente.getCelular());
+			prst.setBoolean(7, paciente.isTieneSeguro());
+			prst.setString(8, paciente.getTipoSangre());
+			
+			return prst.executeUpdate() > 0;
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Error al actualizar el registro.");
+			return false;
+		}
+	}
+		
+	
 	
 }

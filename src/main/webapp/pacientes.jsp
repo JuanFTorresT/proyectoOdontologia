@@ -367,9 +367,9 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Tabla de pacientes</h1>
                     <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                        For more information about DataTables, please visit the <a target="_blank"
+                        For more information about DataTables, please visit the<a target="_blank"
                             href="https://datatables.net">official DataTables documentation</a>.</p>
 
                     <!-- DataTales Example -->
@@ -427,7 +427,12 @@
 	                                            <td>
 	                                            	<a href="#" class="btn btn-info btn-icon-split p-1">Ver Citas</a>
 	                                            	<a href="#" class="btn btn-primary btn-icon-split p-1">Ver Acudiente</a>
-	                                            	<a href="#" class="btn btn-warning btn-icon-split p-1">Editar</a>
+	                                            	<button class="btn btn-warning btn-sm"
+													        data-toggle="modal"
+													        data-target="#editarPacienteModal"
+													        data-id="${paciente.id}">
+													    Editar
+													</button>
 	                                            	
 	                                            	<form action="${pageContext.request.contextPath}/EliminarPacienteServlet" method="POST">
 	                                            		<input type="hidden" name="accionEliminar" value="eliminar">
@@ -471,7 +476,7 @@
         <i class="fas fa-angle-up"></i>
     </a>
     
-    <!-- Crear Secretario modal-->
+    <!-- Crear paciente modal-->
     <div class="modal fade" id="crearPacienteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -585,6 +590,121 @@
         </div>
     </div>
     
+    <!-- EDITAR PACIENTE MODAL -->
+    <div class="modal fade" id="editarPacienteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Paciente</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+							
+                            <form action="${pageContext.request.contextPath}/EditarPacienteServlet" method="POST" name="editarPacienteForm" class="user" id="editarPacienteForm">
+                                <input type="hidden" id="idPaciente" name="idEditarPaciente">
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                    	<label for="nombrePaciente">Nombre</label>
+                                        <input type="text" class="form-control" id="nombrePaciente" name="editarNombrePaciente" placeholder="Ej. Juan Felipe">
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                    	<label for="apellidoPaciente">Apellido</label>
+                                        <input type="text" class="form-control" id="apellidoPaciente" name="editarApellidoPaciente" placeholder="Ej. Torres Trujillo">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                    	<label for="indentificacionPaciente">Identificacion</label>
+                                        <input type="text" class="form-control" id="identificacionPaciente" name="editarIdentificacionPaciente" placeholder="Ej. 1222333444">
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                    	<label for="fechaNacimientoPaciente">Fecha de nacimiento</label>
+                                        <input type="date" class="form-control " id="editarFechaNacimientoPaciente" name="editarFechaNacimientoPaciente">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                    	<label for="direccionPaciente">Direccion</label>
+                                        <input type="text" class="form-control" id="direccionPaciente" name="editarDireccionPaciente" placeholder="Ej. Carrera 10 # 10-10">
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                    	<label for="celularPaciente">Celular</label>
+                                        <input type="number" class="form-control" id="celularPaciente" name="editarCelularPaciente" placeholder="Ej. 310 300 25 25">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 d-flex ">
+                      					 <div class="form-check">
+										   <input class="form-check-input" type="checkbox" name="editarSeguro">
+										   <label class="form-check-label">Tiene seguro</label>
+										</div>
+					
+                                    </div>
+									<div class="col-sm-6 mb-3 mb-sm-0">
+									    <select class="form-control" name="editarTipoSangre">
+									        <option selected>RH del paciente</option>
+									        <option value="O+">O+</option>
+									        <option value="O-">O-</option>
+									        <option value="A+">A+</option>
+									        <option value="A-">A-</option>
+									        <option value="B+">B+</option>
+									        <option value="B-">B-</option>
+									        <option value="AB+">AB+</option>
+									        <option value="AB-">AB-</option>
+									    </select>
+									</div>
+                                </div>
+                                <!-- DATOS DEL ACUDIENTE -->
+                                <div id="editarDatosAcudiente" style="display:none;">
+                                	<div class="text-center">
+		                                <h1 class="h4 text-gray-900 mb-4">Datos del acudiente</h1>
+		                            </div>
+                                	
+                                	<div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                    	<label for="nombreAcudiente">Nombre</label>
+                                        <input type="text" class="form-control" id="nombreAcudiente" name="editarNombreAcudiente" placeholder="Ej. Juan Felipe">
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                    	<label for="apellidoAcudiente">Apellido</label>
+                                        <input type="text" class="form-control" id="apellidoAcudiente" name="editarApellidoAcudiente" placeholder="Ej. Torres Trujillo">
+                                    </div>
+	                                </div>
+	                                <div class="form-group row">
+	                                    <div class="col-sm-6 mb-3 mb-sm-0">
+	                                    	<label for="indentificacionAcudiente">Identificacion</label>
+	                                        <input type="text" class="form-control" id="identificacionAcudiente" name="editarIdentificacionAcudiente" placeholder="Ej. 1222333444">
+	                                    </div>
+	                                    <div class="col-sm-6 mb-3 mb-sm-0">
+	                                    	<label for="fechaNacimientoAcudiente">Fecha de nacimiento</label>
+	                                        <input type="date" class="form-control " id="fechaNacimientoAcudiente" name="editarFechaNacimientoAcudiente">
+	                                    </div>
+	                                </div>
+	                                <div class="form-group row">
+	                                    <div class="col-sm-6 mb-3 mb-sm-0">
+	                                    	<label for="direccionAcudiente">Direccion</label>
+	                                        <input type="text" class="form-control" id="direccionAcudiente" name="editarDireccionAcudiente" placeholder="Ej. Carrera 10 # 10-10">
+	                                    </div>
+	                                    <div class="col-sm-6 mb-3 mb-sm-0">
+	                                    	<label for="celularAcudiente">Celular</label>
+	                                        <input type="number" class="form-control" id="celularAcudiente" name="editarCelularAcudiente" placeholder="Ej. 310 300 25 25">
+	                                    </div>
+	                                </div>
+
+                                </div>
+                                
+                                <input type="submit" value="Editar Paciente"  class="btn btn-primary btn-user btn-block"/>
+
+                            </form>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+    
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -625,6 +745,7 @@
     
         <!-- Logica mostrar formulario acudiente -->
     <script type="text/javascript" src="js/creacionAcudiente.js"></script>
+    <script type="text/javascript" src="js/traerDatosEditarPaciente.js"></script>
 
 </body>
 

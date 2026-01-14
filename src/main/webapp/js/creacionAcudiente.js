@@ -27,3 +27,33 @@ fechaNacimiento.addEventListener("change", function () {
   }
   
 });
+
+const editarFechaNacimientoPaciente = document.getElementById("editarFechaNacimientoPaciente");
+const formularioEditarAcudiente = document.getElementById("editarDatosAcudiente");
+
+editarFechaNacimientoPaciente.addEventListener("change", function () {
+	console.log("Eventoactivad");
+  const fechaNac = new Date(this.value);
+  
+  const hoy = new Date();
+
+
+  let edad = hoy.getFullYear() - fechaNac.getFullYear();
+  const mes = hoy.getMonth() - fechaNac.getMonth();
+
+  if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
+	
+    edad--;
+	
+  }
+
+  if (edad < 18) {
+	
+    formularioEditarAcudiente.style.display = "block";
+	
+  } else {
+	
+    formularioEditarAcudiente.style.display = "none";
+  }
+  
+});

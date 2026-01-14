@@ -41,7 +41,7 @@ public class CargarPacientesServlet extends HttpServlet {
 		
 		List<Paciente> listaPacientes = pacienteDAO.obtenerListaPacientes();
 		
-		System.out.println(listaPacientes);
+		//System.out.println(listaPacientes);
 
 		request.setAttribute("listaPacientes", listaPacientes);
 
