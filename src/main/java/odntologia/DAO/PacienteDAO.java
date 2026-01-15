@@ -33,8 +33,6 @@ public class PacienteDAO {
 			
 			return prst.executeUpdate() > 0;
 			
-			
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -88,7 +86,7 @@ public class PacienteDAO {
 	
 	public boolean EliminarPaciente(int id){
 		
-		String consultaObtenerPacientes="DELETE FROM PACIENTES WHERE ID=" + id;
+		String consultaObtenerPacientes="DELETE FROM PACIENTES WHERE IdPaciente=" + id;
 		
 		try(Connection conexion = Conexion.getConexion();
 			PreparedStatement prst = conexion.prepareStatement(consultaObtenerPacientes);
@@ -106,7 +104,7 @@ public class PacienteDAO {
 	
 	public Paciente buscarPorId(int idBuscar) {
 		
-		String consultaObtenerPacientes="SELECT * FROM PACIENTES WHERE ID="+idBuscar;
+		String consultaObtenerPacientes="SELECT * FROM PACIENTES WHERE idPaciente="+idBuscar;
 		
 		try(Connection conexion = Conexion.getConexion();
 			PreparedStatement prst = conexion.prepareStatement(consultaObtenerPacientes);
@@ -142,7 +140,7 @@ public class PacienteDAO {
 	}
 	
 	public boolean editarPaciente(Paciente paciente) {
-		String consultaInsert = "UPDATE pacientes SET identificacion=?,nombre=?,apellido=?,fechaNacimiento=?,direccion=?,celular=?,seguro=?,tipoSangre=? WHERE id=" + paciente.getId();
+		String consultaInsert = "UPDATE pacientes SET identificacion=?,nombre=?,apellido=?,fechaNacimiento=?,direccion=?,celular=?,seguro=?,tipoSangre=? WHERE idPaciente=" + paciente.getId();
 		
 		try (Connection conexion = Conexion.getConexion();
 			 PreparedStatement prst = conexion.prepareStatement(consultaInsert)){
@@ -166,6 +164,32 @@ public class PacienteDAO {
 			System.out.println("Error al actualizar el registro.");
 			return false;
 		}
+	}
+	
+	public int obtenerIdPaciente(String identificacion) {
+		
+String consultaObtenerPacientes="SELECT idPaciente FROM PACIENTES WHERE identificacion="+identificacion;
+		
+		try(Connection conexion = Conexion.getConexion();
+			PreparedStatement prst = conexion.prepareStatement(consultaObtenerPacientes);
+				ResultSet rs = prst.executeQuery();){
+			
+			int id = 0;
+			
+			while(rs.next()) {
+				id = rs.getInt(1);
+				
+				
+			}
+			
+			return id;
+			
+			}catch (Exception e) {
+				// TODO: handle exception
+				return 0;
+			}
+		
+		
 	}
 		
 	

@@ -542,7 +542,9 @@
 									    </select>
 									</div>
                                 </div>
-                                <!-- DATOS DEL ACUDIENTE -->
+                                
+                                <!-- ------------------------DATOS DEL ACUDIENTE---------------------------------- -->
+                                
                                 <div id="datosAcudiente" style="display:none;">
                                 	<div class="text-center">
 		                                <h1 class="h4 text-gray-900 mb-4">Datos del acudiente</h1>
@@ -576,6 +578,13 @@
 	                                    <div class="col-sm-6 mb-3 mb-sm-0">
 	                                    	<label for="celularAcudiente">Celular</label>
 	                                        <input type="number" class="form-control" id="celularAcudiente" name="celularAcudiente" placeholder="Ej. 310 300 25 25">
+	                                    </div>
+	                                </div>
+	                                
+   	                                <div class="form-group row">
+	                                    <div class="col-sm-6 mb-3 mb-sm-0">
+											<label for="parentescoAcudiente">Parentesco</label>
+	                                        <input type="text" class="form-control" id="parentescoAcudiente" name="parentescoAcudiente" placeholder="Ej. Papá">
 	                                    </div>
 	                                </div>
 

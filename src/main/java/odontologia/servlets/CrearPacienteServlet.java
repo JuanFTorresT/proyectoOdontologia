@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import odntologia.DAO.AcudienteDAO;
 import odntologia.DAO.PacienteDAO;
+import ondontologia.model.Acudiente;
 import ondontologia.model.Odontologo;
 import ondontologia.model.Paciente;
 
@@ -20,6 +22,7 @@ import ondontologia.model.Paciente;
 public class CrearPacienteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private PacienteDAO pacienteDAO = new PacienteDAO();
+	private AcudienteDAO acudienteDAO = new AcudienteDAO();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -44,7 +47,7 @@ public class CrearPacienteServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		
-		//Creacion del odontologo
+		//Creacion del paciente
 		String nombre = request.getParameter("nombrePaciente");
 		String apellido = request.getParameter("apellidoPaciente");
 		String identificiacion = request.getParameter("identificacionPaciente");
@@ -54,18 +57,50 @@ public class CrearPacienteServlet extends HttpServlet {
 		boolean seguro = request.getParameter("seguro") != null;
 		String tipoSangre = request.getParameter("tipoSangre");
 
-		
 		Paciente nuevoPaciente = new Paciente(identificiacion, nombre, apellido, fechaNacimiento, direccion, celular, seguro, tipoSangre);
 		
+		int edad = LocalDate.now().getYear()-fechaNacimiento.getYear();
+		int mes = LocalDate.now().getMonthValue()-fechaNacimiento.getMonthValue();
 		
+		if (mes < 0 || (mes == 0 && LocalDate.now().getDayOfMonth() < fechaNacimiento.getDayOfMonth())) {
+			edad--;
+		}
 		
 		try {
 			pacienteDAO.registrarPaciente(nuevoPaciente);
-			response.sendRedirect(request.getContextPath() + "/CargarPacientesServlet");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		if (edad<18) {
+			//CREACION DEL ACUDIENTE
+			
+			int idPaciente = pacienteDAO.obtenerIdPaciente(identificiacion);
+			String nombreAcudiente = request.getParameter("nombreAcudiente");
+			String apellidoAcudiente = request.getParameter("apellidoAcudiente");
+			String identificiacionAcudiente = request.getParameter("identificacionAcudiente");
+			LocalDate fechaNacimientoAcudiente = LocalDate.parse(request.getParameter("fechaNacimientoAcudiente"));
+			String direccionAcudiente = request.getParameter("direccionAcudiente");
+			String celularAcudiente = request.getParameter("celularAcudiente");
+			String parentescoAcudiente = request.getParameter("parentescoAcudiente");
+			
+			Acudiente acudiente = new Acudiente(idPaciente, identificiacionAcudiente, nombreAcudiente, apellidoAcudiente, fechaNacimientoAcudiente, direccionAcudiente, celularAcudiente, parentescoAcudiente);
+			
+			try {
+				acudienteDAO.registrarAcudiente(acudiente);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		response.sendRedirect(request.getContextPath() + "/CargarPacientesServlet");
+		
+		
+		
+		
+
 		
 	}
 

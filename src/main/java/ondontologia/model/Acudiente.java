@@ -4,17 +4,27 @@ import java.time.LocalDate;
 
 public class Acudiente extends Persona{
 	
+	private int idAcudiente;
 	private int idPaciente;
 	private String parentesco;
 	public Acudiente() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Acudiente(String identificacion, String nombre, String apellido, LocalDate fechaNacimiento, String direccion,
+	public Acudiente(int idPaciente, String identificacion, String nombre, String apellido, LocalDate fechaNacimiento, String direccion,
 			String celular, String parentesco) {
 		super(identificacion, nombre, apellido, fechaNacimiento, direccion, celular);
-		// TODO Auto-generated constructor stub
+		// TODO Auto-generated const;ructor stub
+		this.idPaciente = idPaciente;
 		this.parentesco = parentesco;
+	}
+	
+	
+	public int getIdAcudiente() {
+		return idAcudiente;
+	}
+	public void setIdAcudiente(int idAcudiente) {
+		this.idAcudiente = idAcudiente;
 	}
 	public int getIdPaciente() {
 		return idPaciente;
