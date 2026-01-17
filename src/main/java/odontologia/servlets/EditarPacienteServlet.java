@@ -70,8 +70,6 @@ public class EditarPacienteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("🔥 DO POST EDITAR PACIENTE 🔥");
-		
 		request.setCharacterEncoding("UTF-8");
 		
 		//Creacion del odontologo
