@@ -143,7 +143,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="citas.jsp">
+                <a class="nav-link" href="citasAsignadas.jsp">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Citas</span></a>
             </li>

@@ -57,8 +57,11 @@ public class AsignarHorarioOdontologo extends HttpServlet {
 			System.out.println(horaInicio);
 			System.out.println(horaFin);
 			int idOdontologo = Integer.parseInt(request.getParameter("idOdontologo"));
-			Horario horario = new Horario(horaInicio, horaFin);
-			ondontologoDAO.asignarHorario(idOdontologo, horario);
+			Horario horario = new Horario();
+			horario.setHoraInicio(horaInicio);
+			horario.setHoraFin(horaFin);
+			horario.setIdOdontologo(idOdontologo);
+			ondontologoDAO.asignarHorario(horario);
 		}
 		
 

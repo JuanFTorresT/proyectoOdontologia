@@ -109,14 +109,14 @@ public class OdontologoDAO {
 
 	}
 	
-	public boolean asignarHorario(int idOdontologo, Horario horario) {
+	public boolean asignarHorario(Horario horario) {
 		String consultaInsert = "INSERT INTO horarios(idOdontologo,horaInicio, horaFin) VALUES (?,?,?)";
 		
 		
 		try (Connection conexion = Conexion.getConexion();
 			 PreparedStatement prst = conexion.prepareStatement(consultaInsert)){
 			
-			prst.setInt(1, idOdontologo);
+			prst.setInt(1, horario.getIdOdontologo());
 			prst.setTime(2, java.sql.Time.valueOf(horario.getHoraInicio()));
 			prst.setTime(3, java.sql.Time.valueOf(horario.getHoraFin()));
 			
